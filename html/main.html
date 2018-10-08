@@ -24,6 +24,7 @@
       width: 150px;
       height: 50px;
       background: #aaa;
+      border-radius: 5px;
     }
 	</style>
 </head>
@@ -68,7 +69,7 @@
 		$api.byId('sys-info').innerHTML = str;
     var btn = document.getElementById('btn')
     btn.onclick = function () {
-    
+
       api.closeFrame({
           name: 'main'
       });
