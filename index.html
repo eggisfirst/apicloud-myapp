@@ -71,6 +71,22 @@
       bottom: 50px;
       left: 0
     }
+    #wx{
+      width: 100px;
+      height: 100px;
+      background: green;
+      border-radius: 100%;
+      text-align: center;
+      line-height: 100px
+    }
+    #wxshare{
+      width: 100px;
+      height: 100px;
+      background: green;
+      border-radius: 100%;
+      text-align: center;
+      line-height: 100px
+    }
     .con{font-size: 28px; text-align: center;}
     .flex-con{
       overflow: auto
@@ -87,7 +103,8 @@
               <button type="button" name="button" id="openBtn">打开地图</button>
               <button type="button" name="button" id="closeBtn">关闭地图</button>
               <button type="button" name="button" id="positionBtn">定位</button>
-
+              <p type="button" name="button" id="wx">wxLogin</p>
+              <p type="button" name="button" id="wxshare">wxshare</p>
           </div>
         </div>
 
@@ -121,13 +138,48 @@
         });
 
         var myMap = $api.byId('myMap');
+        var wx = api.require('wx');
         var map = api.require("bMap");
         var mylat;
         var mylon;
         var openMap = document.getElementById('openBtn')
         var closeMap = document.getElementById('closeBtn')
         var positionBtn = document.getElementById('positionBtn')
-        var msgBtn = document.getElementById('msgBtn')
+        var wxBtn = document.getElementById('wx')
+        var wxshare = document.getElementById('wxshare')
+        wxBtn.onclick = function () {
+
+          // wx.isInstalled(function(ret, err) {
+          //     if (ret.installed) {
+          //         alert("当前设备已安装微信客户端");
+          //     } else {
+          //         alert('当前设备未安装微信客户端');
+          //     }
+          // });
+
+          wx.auth({
+            apiKey: ''
+          }, function(ret, err) {
+            if (ret.status) {
+                alert(JSON.stringify(ret));
+            } else {
+                alert(err.code);
+            }
+          });
+          }
+          wxshare.onclick = function () {
+            wx.shareText({
+                apiKey: '',
+                scene: 'timeline',
+                text: '我分享的文本'
+            }, function(ret, err) {
+                if (ret.status) {
+                    alert('分享成功');
+                } else {
+                    alert(err.code);
+                }
+            });
+          }
         openMap.onclick = function () {
            map.open({
                rect: {
