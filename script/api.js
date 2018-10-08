@@ -2,7 +2,9 @@
  * APICloud JavaScript Library
  * Copyright (c) 2014 apicloud.com
  */
+
 (function(window){
+
     var u = {};
     var isAndroid = (/android/gi).test(navigator.appVersion);
     var uzStorage = function(){

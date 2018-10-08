@@ -20,7 +20,7 @@
                flex-flow: column;
     }
     #header{
-        text-align: center; background-color: #81a9c3; color: #fff;
+        text-align: center; background-color: red; color: #fff;
         width: 100%;
     }
     #header h1{
@@ -40,6 +40,37 @@
     #footer h5{
         color: white;
     }
+    #openBtn{
+      width: 150px;
+      height: 50px;
+      background: pink;
+      border-radius: 5px
+    }
+    #closeBtn{
+      width:150px;
+      height: 50px;
+      background: #aaa;
+      border-radius: 5px;
+      position: fixed;
+      bottom: 50px;
+      right: 0
+    }
+    #positionBtn{
+      width: 150px;
+      height: 50px;
+      background: yellow;
+      border-radius: 5px;
+
+    }
+    #msgBtn{
+      width:150px;
+      height: 50px;
+      background: #aaa;
+      border-radius: 5px;
+      position: fixed;
+      bottom: 50px;
+      left: 0
+    }
     .con{font-size: 28px; text-align: center;}
     .flex-con{
       overflow: auto
@@ -52,8 +83,14 @@
             <h1>我是安卓机</h1>
         </div>
         <div id="main" class="flex-con">
-
+          <div id="myMap">
+              <button type="button" name="button" id="openBtn">打开地图</button>
+              <button type="button" name="button" id="closeBtn">关闭地图</button>
+              <button type="button" name="button" id="positionBtn">定位</button>
+            
+          </div>
         </div>
+
         <div id="footer">
             <h5>Copyright &copy;<span id="year"></span> </h5>
         </div>
@@ -62,7 +99,7 @@
 <script type="text/javascript" src="./script/api.js"></script>
 <script type="text/javascript">
     apiready = function(){
-		console.log("Hello APICloud");
+		console.log("Hello");
 
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
@@ -71,6 +108,7 @@
         var headerPos = $api.offset(header);
         var main = $api.byId('main');
         var mainPos = $api.offset(main);
+
         api.openFrame({
             name: 'main',
             url: 'html/main.html',
@@ -82,6 +120,74 @@
                 h: mainPos.h
             }
         });
+
+        var myMap = $api.byId('myMap');
+        var map = api.require("bMap");
+        var mylat;
+        var mylon;
+        var openMap = document.getElementById('openBtn')
+        var closeMap = document.getElementById('closeBtn')
+        var positionBtn = document.getElementById('positionBtn')
+        var msgBtn = document.getElementById('msgBtn')
+        openMap.onclick = function () {
+           map.open({
+               rect: {
+                   x: 0,
+                   y: 68,
+                   w: 360,
+                   h: 300
+               },
+               center: {
+                   lon: mylon,
+                   lat: mylat
+               },
+               zoomLevel: 10,
+               showUserLocation: true,
+               fixedOn: api.frameName,
+               fixed: true
+           }, function(ret){
+               if(ret.status){
+                   alert('地图打开成功');
+               }
+           });
+           map.setScaleBar({
+            show: true,
+            position: {
+                x: 100,
+                y: 100
+            }
+        });
+        map.setTraffic({
+            traffic: true
+        });
+        // map.getHotCityList(function(ret) {
+        //     if (ret.status) {
+        //         alert(JSON.stringify(ret));
+        //     }
+        // });
+        }
+
+        closeMap.onclick = function () {
+          map.close();
+        }
+        positionBtn.onclick = function () {
+          map.getCoordsFromName({
+              city: '广东省',
+              address: '东莞'
+          }, function(ret, err) {
+              if (ret.status) {
+                  // alert(JSON.stringify(ret.lat));
+                  // alert(JSON.stringify(ret.lon))
+                  mylat = JSON.stringify(ret.lat)
+                  mylon = JSON.stringify(ret.lon)
+                  alert("定位成功")
+              }
+          });
+        }
+
+        // alert(JSON.stringify(api))
+
+
 
         var year = $api.byId('year');
         year.innerHTML = new Date().getFullYear();

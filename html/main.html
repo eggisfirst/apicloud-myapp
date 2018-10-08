@@ -9,21 +9,26 @@
 	<style>
 		#con{
 			margin: 10px;
-			font-size: 24px; 
+			font-size: 24px;
 		}
 		ul{
 			margin-bottom: 10px;
 		}
-		ul li{ 
+		ul li{
 			margin: 5px 10px;
 			padding: 5px;
 			color: #000;
 			word-wrap: break-word;
 		}
+    #btn{
+      width: 150px;
+      height: 50px;
+      background: #aaa;
+    }
 	</style>
 </head>
 <body>
-    <label id="con">Hello APP</label>
+    <label id="con">Hello </label>
 	<div id='sys-info'></div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -58,8 +63,19 @@
 		str += '<li>子窗口宽度: ' + frameWidth + '</li>';
 		str += '<li>子窗口高度: ' + frameHeight + '</li>';
 		str += '</ul>';
+    str +='<button type="button" name="button" id="btn">关掉首页</button>'
 
 		$api.byId('sys-info').innerHTML = str;
+    var btn = document.getElementById('btn')
+    btn.onclick = function () {
+    
+      api.closeFrame({
+          name: 'main'
+      });
+    }
+
+
+
 
     };
 </script>
